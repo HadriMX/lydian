@@ -1,0 +1,12 @@
+# esto es un comentario #
+
+const int IVA: 16;
+decimal pIVA: IVA/100;
+int dinero: 534 * pIVA;
+
+if dinero = 0
+    num: 100;
+else if dinero != 5
+    num: 20;
+else
+    num: 0;
