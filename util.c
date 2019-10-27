@@ -44,7 +44,7 @@ void printToken(TokenType token, const char *tokenString)
         case LEQT:
             fprintf(listing, "<=\n"); break;
         case GT:
-            fprintf(listing, ">=\n"); break;
+            fprintf(listing, ">\n"); break;
         case GEQT:
             fprintf(listing, ">=\n"); break;
         case LPAREN:

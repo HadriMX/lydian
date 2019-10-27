@@ -19,7 +19,6 @@ typedef enum
     DONE
 } StateType;
 
-// Lexema de identificador o palabra reservada
 char tokenString[MAXTOKENLEN + 1];
 
 /* Longitud del búffer de entrada para las líneas
@@ -48,7 +47,7 @@ static char getNextChar(void)
 
         if (fgets(lineBuf, BUFLEN - 1, source))
         {
-            // imprimir línea de código
+            // TODO: imprimir línea de código
 
             bufSize = strlen(lineBuf);
             linePos = 0;
@@ -125,6 +124,16 @@ TokenType getToken(void)
                     currState = INNUM;
                 else if (isalpha(c))
                     currState = INID;
+                else if (c == '<')
+                {
+                    currState = INLESSTHAN;
+                    currToken = LT;
+                }
+                else if (c == '>')
+                {
+                    currState = INGREATERTHAN;
+                    currToken = GT;
+                }
                 else if (c == '!')
                     currState = INNOTEQUALS;
                 else if ((c == ' ') || (c == '\t') || (c == '\n'))
@@ -145,12 +154,28 @@ TokenType getToken(void)
                             currToken = ENDFILE;
                             break;
 
-                        case ':':
-                            currToken = ASSIGN;
+                        case '(':
+                            currToken = LPAREN;
                             break;
 
-                        case '=':
-                            currToken = EQ;
+                        case ')':
+                            currToken = RPAREN;
+                            break;
+
+                        case '{':
+                            currToken = LCB;
+                            break;
+
+                        case '}':
+                            currToken = RCB;
+                            break;
+                            
+                        case '*':
+                            currToken = TIMES;
+                            break;
+
+                        case '/':
+                            currToken = OVER;
                             break;
 
                         case '+':
@@ -161,12 +186,8 @@ TokenType getToken(void)
                             currToken = MINUS;
                             break;
 
-                        case '*':
-                            currToken = TIMES;
-                            break;
-
-                        case '/':
-                            currToken = OVER;
+                        case '=':
+                            currToken = EQ;
                             break;
 
                         case '&':
@@ -177,11 +198,13 @@ TokenType getToken(void)
                             currToken = OR;
                             break;
 
+                        case ':':
+                            currToken = ASSIGN;
+                            break;
+
                         case ';':
                             currToken = SEMICOLON;
                             break;
-
-                        // case del resto...
                     }
                 }
                 break;
@@ -190,6 +213,29 @@ TokenType getToken(void)
                 save = FALSE;
                 if (c == '#')
                     currState = START;
+                else if (c == EOF)
+                {
+                    currState = DONE;
+                    currToken = ERROR;
+                }
+                break;
+
+            case INLESSTHAN:
+                currState = DONE;
+
+                if (c == '=')
+                    currToken = LEQT;
+                else
+                    ungetNextChar();
+                break;
+
+            case INGREATERTHAN:
+                currState = DONE;
+
+                if (c == '=')
+                    currToken = GEQT;
+                else
+                    ungetNextChar();
                 break;
 
             case INNOTEQUALS:
@@ -218,7 +264,7 @@ TokenType getToken(void)
                 break;
 
             case INID:
-                if (!isalpha(c))
+                if ((!isalpha(c)) && (!isdigit(c)))
                 {
                     ungetNextChar();
                     save = FALSE;
@@ -255,7 +301,7 @@ TokenType getToken(void)
 
     if (TraceScan)
     {
-        fprintf(listing, "\t%d: ", lineNo);
+        fprintf(listing, "\t%2d ", lineNo);
         printToken(currToken, tokenString);
     }
 

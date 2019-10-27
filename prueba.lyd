@@ -1,12 +1,28 @@
-# esto es un comentario #
+const char A: 65;
+decimal iva: 16/100;
+int edad: 21;
+int num2: (edad * 2) / 3;
 
-const int IVA: 16;
-decimal pIVA: IVA/100;
-int dinero: 534 * pIVA;
-
-if dinero = 0
-    num: 100;
-else if dinero != 5
-    num: 20;
+# este es un comentario #
+if (not (num2 >= 4 & num2 <= 8))
+{
+    if (edad * 2 = 30)
+    {
+        num2 = 0;
+    }
+}
+#
+este es un
+comentario multilinea
+#
+else if (num2 > 50 | iva != 1)
+{
+    int x = 0;
+}
 else
-    num: 0;
+{
+    while (edad < 100)
+    {
+        edad = edad + 1;
+    }
+}
