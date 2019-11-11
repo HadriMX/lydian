@@ -21,7 +21,7 @@
 #endif
 
 // Número de palabras reservadas
-#define MAXRESERVED 9
+#define MAXRESERVED 8
 
 typedef enum
 {
@@ -34,7 +34,6 @@ typedef enum
     IF,
     INT,
     NOT,
-    VOID,
     WHILE,
     IDENTIFIER,
     NUMBER,

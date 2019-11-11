@@ -16,7 +16,6 @@ void printToken(TokenType token, const char *tokenString)
         case IF:
         case INT:
         case NOT:
-        case VOID:
         case WHILE:
             fprintf(listing,
                 "KEYWORD: %s\n", tokenString);

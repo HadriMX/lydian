@@ -84,7 +84,6 @@ static struct
                                 {"if", IF},
                                 {"int", INT},
                                 {"not", NOT},
-                                {"void", VOID},
                                 {"while", WHILE}};
 
 /* Busca linealmente un identificador para ver si es una
