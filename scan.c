@@ -11,11 +11,14 @@ typedef enum
 {
     START,
     INCOMMENT,
-    INNUM,
+    INNUML,
+    INNUMDOT,
+    INNUMR,
     INID,
     INNOTEQUALS,
     INLESSTHAN,
     INGREATERTHAN,
+    INSTRINGLITERAL,
     DONE
 } StateType;
 
@@ -84,7 +87,9 @@ static struct
                                 {"if", IF},
                                 {"int", INT},
                                 {"not", NOT},
-                                {"while", WHILE}};
+                                {"read", READ},
+                                {"while", WHILE},
+                                {"write", WRITE}};
 
 /* Busca linealmente un identificador para ver si es una
  * palabra reservada
@@ -120,7 +125,7 @@ TokenType getToken(void)
         {
             case START:
                 if (isdigit(c))
-                    currState = INNUM;
+                    currState = INNUML;
                 else if (isalpha(c))
                     currState = INID;
                 else if (c == '<')
@@ -137,6 +142,11 @@ TokenType getToken(void)
                     currState = INNOTEQUALS;
                 else if ((c == ' ') || (c == '\t') || (c == '\n'))
                     save = FALSE;
+                else if (c == '"')
+                {
+                    save = FALSE;
+                    currState = INSTRINGLITERAL;
+                }
                 else if (c == '#')
                 {
                     save = FALSE;
@@ -204,6 +214,10 @@ TokenType getToken(void)
                         case ';':
                             currToken = SEMICOLON;
                             break;
+
+                        default:
+                            currToken = ERROR;
+                            break;
                     }
                 }
                 break;
@@ -211,7 +225,9 @@ TokenType getToken(void)
             case INCOMMENT:
                 save = FALSE;
                 if (c == '#')
+                {
                     currState = START;
+                }
                 else if (c == EOF)
                 {
                     currState = DONE;
@@ -252,8 +268,40 @@ TokenType getToken(void)
                 }
                 break;
 
-            case INNUM:
-                if (!isdigit(c))
+            case INNUML:
+                if (c == '.')
+                {
+                    currState = INNUMDOT;
+                }
+                else if (!isdigit(c))
+                {
+                    ungetNextChar();
+                    save = FALSE;
+                    currState = DONE;
+                    currToken = NUMBER;
+                }
+                break;
+
+            case INNUMDOT:
+                if (isdigit(c))
+                {
+                    currState = INNUMR;
+                }
+                else
+                {
+                    save = FALSE;
+                    currState = DONE;
+                    currToken = ERROR;
+                }
+                break;
+
+            case INNUMR:
+                if (c == '.')
+                {
+                    currState = DONE;
+                    currToken = ERROR;
+                }
+                else if (!isdigit(c))
                 {
                     ungetNextChar();
                     save = FALSE;
@@ -269,6 +317,15 @@ TokenType getToken(void)
                     save = FALSE;
                     currState = DONE;
                     currToken = IDENTIFIER;
+                }
+                break;
+
+            case INSTRINGLITERAL:
+                if (c == '"')
+                {
+                    save = FALSE;
+                    currState = DONE;
+                    currToken = STRLITERAL;
                 }
                 break;
 

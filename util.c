@@ -16,7 +16,9 @@ void printToken(TokenType token, const char *tokenString)
         case IF:
         case INT:
         case NOT:
+        case READ:
         case WHILE:
+        case WRITE:
             fprintf(listing,
                 "KEYWORD: %s\n", tokenString);
             break;
@@ -60,11 +62,15 @@ void printToken(TokenType token, const char *tokenString)
             fprintf(listing, "EOF\n"); break;
         case NUMBER:
             fprintf(listing,
-                "NUMBER, val = %s\n", tokenString);
+                "NUMBER: %s\n", tokenString);
             break;
         case IDENTIFIER:
             fprintf(listing,
-                "IDENTIFIER, name = %s\n", tokenString);
+                "IDENTIFIER: %s\n", tokenString);
+            break;
+        case STRLITERAL:
+            fprintf(listing,
+                "STRING LITERAL: '%s'\n", tokenString);
             break;
         case ERROR:
             fprintf(listing,

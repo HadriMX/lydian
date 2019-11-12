@@ -1,7 +1,9 @@
 const char A: 65;
-decimal iva: 16/100;
-int edad: 21;
+decimal iva: 0.16;
+int edad: 0;
 int num2: (edad * 2) / 3;
+
+read edad;
 
 # este es un comentario #
 if (not (num2 >= 4 & num2 <= 8))
@@ -26,3 +28,6 @@ else
         edad = edad + 1;
     }
 }
+
+write "El r3sult4d0 es...";
+write edad;

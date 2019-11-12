@@ -21,7 +21,7 @@
 #endif
 
 // Número de palabras reservadas
-#define MAXRESERVED 8
+#define MAXRESERVED 10
 
 typedef enum
 {
@@ -34,9 +34,12 @@ typedef enum
     IF,
     INT,
     NOT,
+    READ,
     WHILE,
+    WRITE,
     IDENTIFIER,
     NUMBER,
+    STRLITERAL,
     PLUS,
     MINUS,
     TIMES,
@@ -68,6 +71,10 @@ extern FILE *code;
 
 // Número de línea fuente para el listado
 extern int lineNo;
+
+/*********************************************************/
+/***********************  BANDERAS  **********************/
+/*********************************************************/
 
 /*
  * Controla si la información de cada token es impresa
