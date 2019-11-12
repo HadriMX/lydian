@@ -1,14 +1,14 @@
 const char A: 65;
 decimal iva: 0.16;
 int edad: 0;
-int num2: (edad * 2) / 3;
-
 read edad;
+
+int num2: (edad * 2) / 3;
 
 # este es un comentario #
 if (not (num2 >= 4 & num2 <= 8))
 {
-    if (edad * 2 = 30)
+    if (edad = 30)
     {
         num2 = 0;
     }
