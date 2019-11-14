@@ -81,3 +81,175 @@ void printToken(TokenType token, const char *tokenString)
                 "Token desconocido: %d\n", token);
     }
 }
+
+TreeNode *newStmtNode(StmtKind kind)
+{
+    TreeNode *t = (TreeNode *)malloc(sizeof(TreeNode));
+
+    if (t == NULL)
+    {
+        fprintf(listing,
+                "Se acabó la memoria en la línea %d\n", lineNo);
+    }
+    else
+    {
+        for (int i = 0; i < MAXCHILDREN; i++)
+        {
+            t->child[i] = NULL;
+        }
+
+        t->sibling = NULL;
+        t->nodeKind = StmtK;
+        t->kind.stmt = kind;
+        t->lineNo = lineNo;
+    }
+
+    return t;
+}
+
+TreeNode *newExpNode(ExpKind kind)
+{
+    TreeNode *t = (TreeNode *)malloc(sizeof(TreeNode));
+
+    if (t == NULL)
+    {
+        fprintf(listing,
+                "Se acabó la memoria en la línea %d\n", lineNo);
+    }
+    else
+    {
+        for (int i = 0; i < MAXCHILDREN; i++)
+        {
+            t->child[i] = NULL;
+        }
+
+        t->sibling = NULL;
+        t->nodeKind = ExpK;
+        t->kind.exp = kind;
+        t->lineNo = lineNo;
+        t->type = Void;
+    }
+
+    return t;
+}
+
+char *copyString(char *s)
+{
+    int n;
+    char *t;
+
+    if (s == NULL)
+        return NULL;
+
+    n = strlen(s) + 1;
+    t = malloc(n);
+
+    if (t == NULL)
+    {
+        fprintf(listing,
+                "Se acabó la memoria en la línea %d\n", lineNo);
+    }
+    else
+    {
+        strcpy(t, s);
+    }
+
+    return t;
+}
+
+// Almacena el número actual de espacios para sangría
+static int indentNo = 0;
+
+// Aumenta la sangría
+#define INDENT indentNo += 2
+
+// Decrementa la sangría
+#define UNINDENT indentNo -= 2
+
+// Realiza las sangrías mediante impresión de espacios
+static void printSpaces(void)
+{
+    for (int i = 0; i < indentNo; i++)
+    {
+        fprintf(listing, " ");
+    }
+}
+
+void printTree(TreeNode *tree)
+{
+    INDENT;
+    while (tree != NULL)
+    {
+        printSpaces();
+        if (tree->nodeKind == StmtK)
+        {
+            switch (tree->kind.stmt)
+            {
+            case IfK:
+                fprintf(listing, "If\n");
+                break;
+
+            case WhileK:
+                fprintf(listing, "While\n");
+                break;
+
+            case AssignK:
+                fprintf(listing,
+                        "Asignar a: %s\n", tree->attr.name);
+                break;
+
+            case ReadK:
+                fprintf(listing,
+                        "Leer: %s\n", tree->attr.name);
+                break;
+
+            case WriteK:
+                fprintf(listing, "Escribir\n");
+                break;
+
+            default:
+                fprintf(listing,
+                        "Tipo de nodo Stmt desconocido\n");
+                break;
+            }
+        }
+        else if (tree->nodeKind == ExpK)
+        {
+            switch (tree->kind.exp)
+            {
+            case OpK:
+                fprintf(listing, "Op: ");
+                printToken(tree->attr.op, "\0");
+                break;
+
+            case ConstK:
+                fprintf(listing,
+                        "Const: %d\n", tree->attr.val);
+                break;
+
+            case IdK:
+                fprintf(listing,
+                        "Id: %s\n", tree->attr.name);
+                break;
+
+            default:
+                fprintf(listing,
+                        "Tipo de nodo ExpNode desconocido\n");
+                break;
+            }
+        }
+        else
+        {
+            fprintf(listing, "Tipo de nodo desconocido\n");
+        }
+
+        for (int i = 0; i < MAXCHILDREN; i++)
+        {
+            printTree(tree->child[i]);
+        }
+
+        tree = tree->sibling;
+    }
+
+    UNINDENT;
+}

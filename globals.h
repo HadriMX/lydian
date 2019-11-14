@@ -73,6 +73,59 @@ extern FILE *code;
 extern int lineNo;
 
 /*********************************************************/
+/***** ÁRBOL SINTÁCTICO PARA EL ANÁLISIS SINTÁCTICO ******/
+/*********************************************************/
+
+typedef enum
+{
+    StmtK,
+    ExpK
+} NodeKind;
+
+typedef enum
+{
+    IfK,
+    WhileK,
+    AssignK,
+    ReadK,
+    WriteK
+} StmtKind;
+
+typedef enum
+{
+    OpK,
+    ConstK,
+    IdK
+} ExpKind;
+
+typedef enum
+{
+    Void,
+    Decimal,
+    Boolean
+} ExpType;
+
+#define MAXCHILDREN 3
+
+typedef struct treeNode
+{
+    struct treeNode *child[MAXCHILDREN];
+    struct treeNode *sibling;
+    int lineNo;
+    NodeKind nodeKind;
+    union {
+        StmtKind stmt;
+        ExpKind exp;
+    } kind;
+    union {
+        TokenType op;
+        int val;
+        char *name;
+    } attr;
+    ExpType type;
+} TreeNode;
+
+/*********************************************************/
 /***********************  BANDERAS  **********************/
 /*********************************************************/
 
@@ -82,5 +135,12 @@ extern int lineNo;
  * reconocido por el analizador léxico.
  */
 extern int TraceScan;
+
+/*
+ * Controla si el árbol sintáctico es impreso en el
+ * archivo del listado en forma linealizada
+ * (utilizando sangrías para los hijos)
+ */
+extern int TraceParse;
 
 #endif
