@@ -3,7 +3,7 @@
 /*********************************************************/
 
 #include "globals.h"
-#include "util.c"
+#include "util.h"
 #include "scan.h"
 
 // Estados del analizador léxico DFA

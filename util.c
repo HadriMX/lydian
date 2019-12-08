@@ -9,75 +9,94 @@ void printToken(TokenType token, const char *tokenString)
 {
     switch (token)
     {
-        case CHAR:
-        case CONST:
-        case DECIMAL:
-        case ELSE:
-        case IF:
-        case INT:
-        case NOT:
-        case READ:
-        case WHILE:
-        case WRITE:
-            fprintf(listing,
+    case CHAR:
+    case CONST:
+    case DECIMAL:
+    case ELSE:
+    case IF:
+    case INT:
+    case NOT:
+    case READ:
+    case WHILE:
+    case WRITE:
+        fprintf(listing,
                 "KEYWORD: %s\n", tokenString);
-            break;
-        case PLUS:
-            fprintf(listing, "+\n"); break;
-        case MINUS:
-            fprintf(listing, "-\n"); break;
-        case TIMES:
-            fprintf(listing, "*\n"); break;
-        case OVER:
-            fprintf(listing, "/\n"); break;
-        case ASSIGN:
-            fprintf(listing, ":\n"); break;
-        case AND:
-            fprintf(listing, "&\n"); break;
-        case OR:
-            fprintf(listing, "|\n"); break;
-        case EQ:
-            fprintf(listing, "=\n"); break;
-        case NEQ:
-            fprintf(listing, "!=\n"); break;
-        case LT:
-            fprintf(listing, "<\n"); break;
-        case LEQT:
-            fprintf(listing, "<=\n"); break;
-        case GT:
-            fprintf(listing, ">\n"); break;
-        case GEQT:
-            fprintf(listing, ">=\n"); break;
-        case LPAREN:
-            fprintf(listing, "(\n"); break;
-        case RPAREN:
-            fprintf(listing, ")\n"); break;
-        case LCB:
-            fprintf(listing, "{\n"); break;
-        case RCB:
-            fprintf(listing, "}\n"); break;
-        case SEMICOLON:
-            fprintf(listing, ";\n"); break;
-        case ENDFILE:
-            fprintf(listing, "EOF\n"); break;
-        case NUMBER:
-            fprintf(listing,
-                "NUMBER: %s\n", tokenString);
-            break;
-        case IDENTIFIER:
-            fprintf(listing,
-                "IDENTIFIER: %s\n", tokenString);
-            break;
-        case STRLITERAL:
-            fprintf(listing,
+        break;
+    case PLUS:
+        fprintf(listing, "+\n");
+        break;
+    case MINUS:
+        fprintf(listing, "-\n");
+        break;
+    case TIMES:
+        fprintf(listing, "*\n");
+        break;
+    case OVER:
+        fprintf(listing, "/\n");
+        break;
+    case ASSIGN:
+        fprintf(listing, ":\n");
+        break;
+    case AND:
+        fprintf(listing, "&\n");
+        break;
+    case OR:
+        fprintf(listing, "|\n");
+        break;
+    case EQ:
+        fprintf(listing, "=\n");
+        break;
+    case NEQ:
+        fprintf(listing, "!=\n");
+        break;
+    case LT:
+        fprintf(listing, "<\n");
+        break;
+    case LEQT:
+        fprintf(listing, "<=\n");
+        break;
+    case GT:
+        fprintf(listing, ">\n");
+        break;
+    case GEQT:
+        fprintf(listing, ">=\n");
+        break;
+    case LPAREN:
+        fprintf(listing, "(\n");
+        break;
+    case RPAREN:
+        fprintf(listing, ")\n");
+        break;
+    case LCB:
+        fprintf(listing, "{\n");
+        break;
+    case RCB:
+        fprintf(listing, "}\n");
+        break;
+    case SEMICOLON:
+        fprintf(listing, ";\n");
+        break;
+    case ENDFILE:
+        fprintf(listing, "EOF\n");
+        break;
+    case NUMBER:
+        fprintf(listing,
+                "NÚMERO: %s\n", tokenString);
+        break;
+    case IDENTIFIER:
+        fprintf(listing,
+                "IDENTIFICADOR: %s\n", tokenString);
+        break;
+    case STRLITERAL:
+        fprintf(listing,
                 "STRING LITERAL: '%s'\n", tokenString);
-            break;
-        case ERROR:
-            fprintf(listing,
+        break;
+    case ERROR:
+        fprintf(listing,
                 "ERROR: %s\n", tokenString);
-            break;
-        default:
-            fprintf(listing,
+        break;
+    default:
+        fprintf(listing,
                 "Token desconocido: %d\n", token);
     }
 }
@@ -185,24 +204,23 @@ void printTree(TreeNode *tree)
         {
             switch (tree->kind.stmt)
             {
+            case DeclareK:
+                fprintf(listing, "Declaración: %s\n", tree->attr.name);
+                break;
             case IfK:
                 fprintf(listing, "If\n");
                 break;
-
             case WhileK:
                 fprintf(listing, "While\n");
                 break;
-
             case AssignK:
                 fprintf(listing,
                         "Asignar a: %s\n", tree->attr.name);
                 break;
-
             case ReadK:
                 fprintf(listing,
                         "Leer: %s\n", tree->attr.name);
                 break;
-
             case WriteK:
                 fprintf(listing, "Escribir\n");
                 break;
@@ -218,18 +236,20 @@ void printTree(TreeNode *tree)
             switch (tree->kind.exp)
             {
             case OpK:
-                fprintf(listing, "Op: ");
+                fprintf(listing, "OP: ");
                 printToken(tree->attr.op, "\0");
                 break;
-
             case ConstK:
                 fprintf(listing,
-                        "Const: %d\n", tree->attr.val);
+                        "CONST: %d\n", tree->attr.val);
                 break;
-
             case IdK:
                 fprintf(listing,
-                        "Id: %s\n", tree->attr.name);
+                        "ID: %s\n", tree->attr.name);
+                break;
+            case StrLiteralK:
+                fprintf(listing,
+                        "STRING LITERAL: %s\n", tree->attr.name);
                 break;
 
             default:

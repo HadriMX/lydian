@@ -1,33 +1,35 @@
-const char A: 65;
+char A: 65;
 decimal iva: 0.16;
 int edad: 0;
 read edad;
 
-int num2: (edad * 2) / 3;
+int num2: (edad + 2) / 3;
 
 # este es un comentario #
-if (not (num2 >= 4 & num2 <= 8))
+if (num2 >= 4 & num2 <= 8)
 {
     if (edad = 30)
     {
-        num2 = 0;
+        num2: 0;
     }
 }
 #
 este es un
 comentario multilinea
 #
-else if (num2 > 50 | iva != 1)
-{
-    int x = 0;
-}
 else
 {
-    while (edad < 100)
+    if (num2 > 50 | iva != 1)
     {
-        edad = edad + 1;
+        int x: 0;
     }
+}
+
+while (edad < 100)
+{
+    edad: edad + 1;
 }
 
 write "El r3sult4d0 es...";
 write edad;
+write 2 * 3 - 1 / 8 + 9;

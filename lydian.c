@@ -1,15 +1,19 @@
 #include "globals.h"
-#include "scan.c"
+#include "util.h"
+#include "scan.h"
+#include "parse.h"
 
 int lineNo = 0;
 FILE *source;
 FILE *listing;
 FILE *code;
 
-int TraceScan = TRUE;
+int TraceScan = FALSE;
+int TraceParse = TRUE;
 
 int main(int argc, char* argv[])
 {
+    TreeNode *syntaxTree;
     // nombre de archivo de código fuente
     char pgm[31];
     
@@ -37,7 +41,14 @@ int main(int argc, char* argv[])
 
     fprintf(listing, "\nCOMPILANDO LYDIAN: %s\n", pgm);
 
-    while (getToken() != ENDFILE);
+    syntaxTree = parse();
 
+    if (TraceParse)
+    {
+        fprintf(listing, "\nÁrbol de sintaxis:\n");
+        printTree(syntaxTree);
+    }
+
+    fclose(source);
     return 0;
 }

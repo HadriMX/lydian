@@ -88,14 +88,16 @@ typedef enum
     WhileK,
     AssignK,
     ReadK,
-    WriteK
+    WriteK,
+    DeclareK
 } StmtKind;
 
 typedef enum
 {
     OpK,
     ConstK,
-    IdK
+    IdK,
+    StrLiteralK
 } ExpKind;
 
 typedef enum
