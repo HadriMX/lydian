@@ -2,6 +2,7 @@
 #include "util.h"
 #include "lexico.h"
 #include "sintaxis.h"
+#include "semantica.h"
 
 int lineNo = 0;
 FILE *source;
@@ -10,6 +11,7 @@ FILE *code;
 
 int TraceScan = FALSE;
 int TraceParse = TRUE;
+int TraceAnalyze = TRUE;
 
 int main(int argc, char* argv[])
 {
@@ -48,6 +50,15 @@ int main(int argc, char* argv[])
         fprintf(listing, "\nÁrbol de sintaxis:\n");
         printTree(syntaxTree);
     }
+
+    if (TraceAnalyze)
+        fprintf(listing, "\nBuilding Symbol Table...\n");
+    buildSymtab(syntaxTree);
+    if (TraceAnalyze)
+        fprintf(listing, "\nChecking Types...\n");
+    typeCheck(syntaxTree);
+    if (TraceAnalyze)
+        fprintf(listing, "\nType Checking Finished\n");
 
     fclose(source);
     return 0;

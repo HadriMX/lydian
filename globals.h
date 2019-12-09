@@ -104,7 +104,8 @@ typedef enum
 {
     Void,
     Decimal,
-    Boolean
+    Boolean,
+    StrLiteral
 } ExpType;
 
 #define MAXCHILDREN 3
@@ -141,8 +142,15 @@ extern int TraceScan;
 /*
  * Controla si el árbol sintáctico es impreso en el
  * archivo del listado en forma linealizada
- * (utilizando sangrías para los hijos)
+ * (utilizando sangrías para los hijos).
  */
 extern int TraceParse;
+
+/*
+ * Controla si las inserciones y búsquedas en la
+ * tabla de símbolos se imprimen en el
+ * archivo del listado.
+ */
+extern int TraceAnalyze;
 
 #endif
