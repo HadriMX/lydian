@@ -87,7 +87,7 @@ void buildSymtab(TreeNode *syntaxTree)
 
     if (TraceAnalyze)
     {
-        fprintf(listing, "\nSymbol table:\n\n");
+        fprintf(listing, "\n<< Tabla de símbolos >>\n\n");
         printSymTab(listing);
     }
 }
@@ -123,7 +123,10 @@ static void checkNode(TreeNode *t)
                 }
             }
 
-            if ((t->attr.op == EQ) || (t->attr.op == NEQ) || (t->attr.op == LEQT) || (t->attr.op == LT) || (t->attr.op == GEQT) || (t->attr.op == GT))
+            if ((t->attr.op == EQ) || (t->attr.op == NEQ)
+                || (t->attr.op == LEQT) || (t->attr.op == LT)
+                || (t->attr.op == GEQT) || (t->attr.op == GT)
+                || (t->attr.op == AND) || (t->attr.op == OR))
                 t->type = Boolean;
             else
                 t->type = Decimal;
@@ -148,7 +151,7 @@ static void checkNode(TreeNode *t)
             break;
         case AssignK:
             if (t->child[0]->type != Decimal)
-                typeError(t->child[0], "Asignación de un valor no numérico no soportado.");
+                typeError(t->child[0], "Solo se admiten asignaciones de tipo numérico.");
             break;
         case WriteK:
             if ((t->child[0]->type != Decimal) && (t->child[0]->type != StrLiteral))

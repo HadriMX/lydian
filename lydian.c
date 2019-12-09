@@ -9,7 +9,7 @@ FILE *source;
 FILE *listing;
 FILE *code;
 
-int TraceScan = FALSE;
+int TraceScan = TRUE;
 int TraceParse = TRUE;
 int TraceAnalyze = TRUE;
 
@@ -47,18 +47,19 @@ int main(int argc, char* argv[])
 
     if (TraceParse)
     {
-        fprintf(listing, "\nÁrbol de sintaxis:\n");
+        fprintf(listing, "\n<< Árbol de sintaxis >>\n");
         printTree(syntaxTree);
     }
+    
+    buildSymtab(syntaxTree);
 
     if (TraceAnalyze)
-        fprintf(listing, "\nBuilding Symbol Table...\n");
-    buildSymtab(syntaxTree);
-    if (TraceAnalyze)
-        fprintf(listing, "\nChecking Types...\n");
+        fprintf(listing, "\nComprobando tipos...\n");
+
     typeCheck(syntaxTree);
+
     if (TraceAnalyze)
-        fprintf(listing, "\nType Checking Finished\n");
+        fprintf(listing, "\nComprobación de tipos finalizada\n");
 
     fclose(source);
     return 0;
