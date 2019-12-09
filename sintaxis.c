@@ -4,8 +4,8 @@
 
 #include "globals.h"
 #include "util.h"
-#include "scan.h"
-#include "parse.h"
+#include "lexico.h"
+#include "sintaxis.h"
 
 static TokenType currToken;
 

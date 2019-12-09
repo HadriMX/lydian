@@ -4,7 +4,7 @@
 
 #include "globals.h"
 #include "util.h"
-#include "scan.h"
+#include "lexico.h"
 
 // Estados del analizador léxico DFA
 typedef enum
