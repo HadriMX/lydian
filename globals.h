@@ -121,7 +121,7 @@ typedef struct treeNode
     } kind;
     union {
         TokenType op;
-        int val;
+        double val;
         char *name;
     } attr;
     ExpType type;

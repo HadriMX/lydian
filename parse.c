@@ -311,8 +311,9 @@ TreeNode *factor(void)
     {
     case NUMBER:
         t = newExpNode(ConstK);
+        char *ptr;  // es necesario para la función strtod pero no se usa realmente
         if ((t != NULL) && (currToken == NUMBER))
-            t->attr.val = atoi(tokenString);
+            t->attr.val = strtod(tokenString, &ptr);
 
         match(NUMBER);
         break;
